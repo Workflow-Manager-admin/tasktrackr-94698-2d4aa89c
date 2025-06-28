@@ -75,17 +75,7 @@ export async function login(username, password) {
   return data;
 }
 
-// PUBLIC_INTERFACE
-/**
- * Gets the current user's info.
- */
-export async function getProfile() {
-  const resp = await fetch(`${BACKEND_URL}/profile`, {
-    headers: getHeaders(),
-  });
-  if (!resp.ok) throw new Error("Authentication required.");
-  return resp.json();
-}
+
 
 // PUBLIC_INTERFACE
 /**

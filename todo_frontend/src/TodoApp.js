@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
 import {
-  getTasks, createTask, updateTask, deleteTask, getProfile, clearToken
+  getTasks, createTask, updateTask, deleteTask, clearToken
 } from "./api";
 
 // Helper components for layout
-function Header({ username, onLogout }) {
+function Header({ onLogout }) {
   return (
     <nav className="navbar" style={{
       display: "flex", alignItems: "center", justifyContent: "space-between",
@@ -15,7 +15,7 @@ function Header({ username, onLogout }) {
       </span>
       <div>
         <span style={{ color: "var(--text-secondary)", marginRight: 20, fontSize: 15 }}>
-          Welcome, {username || "user"}
+          Welcome, user
         </span>
         <button onClick={onLogout}
           className="theme-toggle"
@@ -123,12 +123,10 @@ function TaskForm({ editingTask, onSubmit, onCancel }) {
   );
 }
 
-// PUBLIC_INTERFACE
 /**
  * Main ToDo Application - list, create, edit, delete, filter tasks.
  */
 export function TodoApp() {
-  const [username, setUsername] = useState("");
   const [tasks, setTasks] = useState([]);
   const [filter, setFilter] = useState("all"); // all, active, completed
   const [loading, setLoading] = useState(true);
@@ -136,11 +134,10 @@ export function TodoApp() {
   const [formOpen, setFormOpen] = useState(false);
   const [editingTask, setEditingTask] = useState(null);
 
-  async function fetchProfileAndTasks() {
+  // Fetch only tasks (no profile)
+  async function fetchTasks() {
     try {
       setLoading(true); setError("");
-      const p = await getProfile();
-      setUsername(p.username || "user");
       const t = await getTasks();
       setTasks(t);
     } catch (e) {
@@ -151,7 +148,7 @@ export function TodoApp() {
   }
 
   useEffect(() => {
-    fetchProfileAndTasks();
+    fetchTasks();
     // eslint-disable-next-line
   }, []);
 
@@ -165,7 +162,7 @@ export function TodoApp() {
     try {
       setLoading(true);
       await createTask(task);
-      await fetchProfileAndTasks();
+      await fetchTasks();
       setFormOpen(false);
     } catch (e) {
       setError(e.message || "Failed to add task");
@@ -179,7 +176,7 @@ export function TodoApp() {
     try {
       setLoading(true);
       await updateTask(editingTask.id, updates);
-      await fetchProfileAndTasks();
+      await fetchTasks();
       setEditingTask(null);
       setFormOpen(false);
     } catch (e) {
@@ -193,7 +190,7 @@ export function TodoApp() {
     try {
       setLoading(true);
       await deleteTask(id);
-      await fetchProfileAndTasks();
+      await fetchTasks();
     } catch (e) {
       setError(e.message || "Failed to delete task");
     } finally {
@@ -205,7 +202,7 @@ export function TodoApp() {
     try {
       setLoading(true);
       await updateTask(task.id, { completed: !task.completed });
-      await fetchProfileAndTasks();
+      await fetchTasks();
     } catch (e) {
       setError(e.message || "Failed to complete task");
     } finally {
@@ -225,7 +222,7 @@ export function TodoApp() {
 
   return (
     <div>
-      <Header username={username} onLogout={handleLogout} />
+      <Header onLogout={handleLogout} />
       <div style={{ display: "flex", justifyContent: "center", padding: 16 }}>
         <TaskFilter filter={filter} setFilter={setFilter} />
         <main style={{
