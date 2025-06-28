@@ -59,6 +59,17 @@
   border-bottom: 2px solid var(--border-color);
   font-size: 1.18rem;
   font-weight: 500;
+  min-height: 64px;
+  transition: background 0.32s cubic-bezier(.55,0,.1,1),color 0.32s cubic-bezier(.55,0,.1,1);
+}
+
+/* Remove redundant App-header dark/light conflict and force correct theme */
+[data-theme="dark"] .navbar,
+[data-theme="dark"] .App-header {
+  background: var(--header-bg, var(--bg-secondary)) !important;
+  color: var(--text-primary) !important;
+  border-bottom: 2px solid var(--border-color);
+  /* Remove any white artifacts by enforcing correct variable */
 }
 
 .title {
@@ -391,18 +402,7 @@ form .theme-toggle {
   }
 }
 
-.App-header {
-  background-color: var(--bg-secondary);
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease;
-  position: relative;
-}
+/* Remove duplicate .App-header block that caused full-height white space and theme bugs. The header background is now managed only by the top .navbar, .App-header block above. */
 
 .App-link {
   color: var(--text-secondary);
