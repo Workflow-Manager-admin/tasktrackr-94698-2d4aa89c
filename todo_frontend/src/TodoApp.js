@@ -3,23 +3,20 @@ import {
   getTasks, createTask, updateTask, deleteTask, clearToken
 } from "./api";
 
-// Helper components for layout
+/* --- Header (Brand) with log out and optional welcome message --- */
 function Header({ onLogout }) {
   return (
-    <nav className="navbar" style={{
-      display: "flex", alignItems: "center", justifyContent: "space-between",
-      background: "var(--bg-secondary)", padding: "16px 32px", borderRadius: 0
-    }}>
-      <span className="title" style={{ fontWeight: 600, fontSize: 26 }}>
-        📝 tasktrackr
+    <nav className="navbar">
+      <span className="title">
+        <span role="img" aria-label="Task">📝</span>&nbsp;tasktrackr
       </span>
-      <div>
-        <span style={{ color: "var(--text-secondary)", marginRight: 20, fontSize: 15 }}>
+      <div style={{display: "flex", alignItems: "center"}}>
+        <span style={{ color: "var(--text-secondary)", marginRight: 22, fontSize: 15, fontWeight: 400 }}>
           Welcome, user
         </span>
         <button onClick={onLogout}
           className="theme-toggle"
-          style={{ margin: 0, padding: "7px 20px", fontSize: 15 }}>
+          tabIndex={0}>
           Log Out
         </button>
       </div>
@@ -27,49 +24,76 @@ function Header({ onLogout }) {
   );
 }
 
+/* --- Sidebar filter --- */
 function TaskFilter({ filter, setFilter }) {
   return (
-    <aside className="sidebar" style={{
-      flexShrink: 0, background: "var(--bg-secondary)",
-      padding: "30px 18px", minWidth: 160, borderRadius: 20, margin: 16
-    }}>
-      <div style={{ fontWeight: 500, fontSize: 16, marginBottom: 11 }}>Filters</div>
+    <aside className="sidebar">
+      <div style={{
+        fontWeight: 600,
+        fontSize: 17,
+        marginBottom: 10,
+        letterSpacing: ".5px",
+        color: "var(--accent)",
+        textTransform: "uppercase"
+      }}>Filters</div>
       <button className={filter === "all" ? "theme-toggle" : "App-link"}
-        style={{marginBottom:8, width: "100%"}} onClick={()=>setFilter("all")}>All</button>
+        style={{marginBottom:8}} onClick={()=>setFilter("all")}>
+        All
+      </button>
       <button className={filter === "active" ? "theme-toggle" : "App-link"}
-        style={{marginBottom:8, width: "100%"}} onClick={()=>setFilter("active")}>Active</button>
+        style={{marginBottom:8}} onClick={()=>setFilter("active")}>
+        Active
+      </button>
       <button className={filter === "completed" ? "theme-toggle" : "App-link"}
-        style={{marginBottom:8, width: "100%"}} onClick={()=>setFilter("completed")}>Completed</button>
+        style={{marginBottom:8}} onClick={()=>setFilter("completed")}>
+        Completed
+      </button>
     </aside>
   );
 }
 
+/* --- Task List Item with modern style, high contrast and subtle hover --- */
 function TaskItem({ task, onToggleComplete, onDelete, onEdit }) {
   return (
-    <div className="task-item" style={{
-      display: "flex", alignItems: "center",
-      border: "1px solid var(--border-color)", padding: 13, marginBottom: 12,
-      borderRadius: 10, background: "var(--bg-secondary)"
-    }}>
-      <input type="checkbox"
+    <div
+      className={`task-item${task.completed ? " completed" : ""}`}
+      completed={task.completed ? "true" : "false"}
+      tabIndex={0}
+      aria-label={`Task: ${task.title} ${task.completed ? "(completed)" : ""}`}
+    >
+      <input
+        type="checkbox"
         checked={!!task.completed}
         onChange={() => onToggleComplete(task)}
-        style={{ marginRight: 16, accentColor: "var(--button-bg)", width: 20, height: 20 }}
+        tabIndex={0}
+        aria-checked={!!task.completed}
       />
-      <div style={{
-        flexGrow: 1,
-        textDecoration: task.completed ? "line-through" : "none",
-        color: task.completed ? "#999" : "var(--text-primary)"
-      }}>
-        <div style={{ fontSize: 19, fontWeight: 500 }}>{task.title}</div>
-        {task.description && <div style={{ fontSize: 14, color: "var(--text-secondary)" }}>{task.description}</div>}
+      <div>
+        <div className="task-title">{task.title}</div>
+        {task.description &&
+          <div className="task-desc">{task.description}</div>
+        }
       </div>
-      <button className="App-link" style={{marginRight:8}} onClick={() => onEdit(task)}>Edit</button>
-      <button className="App-link" style={{color:"#e74c3c"}} onClick={() => onDelete(task.id)}>Delete</button>
+      <button
+        className="App-link"
+        style={{marginRight:7}}
+        aria-label={`Edit task: ${task.title}`}
+        onClick={() => onEdit(task)}>
+        Edit
+      </button>
+      <button
+        className="App-link"
+        style={{color:"#e74c3c", fontWeight:700}}
+        aria-label={`Delete task: ${task.title}`}
+        onClick={() => onDelete(task.id)}
+      >
+        Delete
+      </button>
     </div>
   );
 }
 
+/* --- Task Add/Edit Form (modal-style card for mobile/desktop) --- */
 function TaskForm({ editingTask, onSubmit, onCancel }) {
   const [title, setTitle] = useState(editingTask ? editingTask.title : "");
   const [description, setDescription] = useState(editingTask ? editingTask.description : "");
@@ -87,34 +111,37 @@ function TaskForm({ editingTask, onSubmit, onCancel }) {
   }
   return (
     <form onSubmit={handleSubmit}
-     style={{
-       display: "flex", flexDirection: "column", gap: 6,
-       marginBottom: 18, background: "var(--bg-secondary)", padding: 18, borderRadius: 12
-     }}>
+      style={{
+        marginTop: 12,
+        marginBottom: 22,
+        borderRadius: 15,
+        background: "var(--bg-secondary)",
+        padding: "20px 18px 14px 18px",
+        boxShadow: "0 2px 18px rgba(25, 118, 210, 0.13)"
+      }}>
       <input
         required
-        style={{ padding: 10, borderRadius: 6, border: "1px solid var(--border-color)", fontSize: 16, marginBottom: 7 }}
-        placeholder="Task title"
+        placeholder={editingTask ? "Edit title" : "Task title"}
         value={title}
+        maxLength={80}
+        style={{ marginBottom: 9, fontSize: 17, fontWeight: 500 }}
         onChange={e => setTitle(e.target.value)}
       />
       <textarea
         rows={2}
-        style={{
-          padding: 10, borderRadius: 6, border: "1px solid var(--border-color)",
-          fontSize: 15, marginBottom: 9, resize: "vertical"
-        }}
-        placeholder="Description (optional)"
+        placeholder="(Optional) Description"
         value={description}
+        style={{ marginBottom: 13, fontSize: 15 }}
+        maxLength={180}
         onChange={e => setDescription(e.target.value)}
       />
-      <div style={{ display: "flex", gap: 10 }}>
-        <button type="submit" className="theme-toggle" style={{ flexGrow: 1 }}>
-          {editingTask ? "Update" : "Add task"}
+      <div style={{display: "flex", gap: 10, marginTop: 2}}>
+        <button type="submit" className="theme-toggle" style={{ flex: "1 1 70px" }}>
+          {editingTask ? "Update" : "Add Task"}
         </button>
         {editingTask && (
           <button type="button" onClick={onCancel}
-            className="App-link" style={{ flexGrow: 1 }}>
+            className="App-link" style={{ flex: 1, minWidth: 70 }}>
             Cancel
           </button>
         )}
@@ -220,24 +247,37 @@ export function TodoApp() {
     window.location.reload();
   }
 
+  // FAB for quick-add on mobile views
+  function Fab({ active, toggle }) {
+    return (
+      <button
+        className="fab"
+        aria-label={active ? "Close task form" : "Add Task"}
+        tabIndex={0}
+        onClick={toggle}
+      >
+        {active ? "×" : "+"}
+      </button>
+    );
+  }
+
   return (
     <div>
       <Header onLogout={handleLogout} />
-      <div style={{ display: "flex", justifyContent: "center", padding: 16 }}>
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        padding: 18,
+        minHeight: "calc(100vh - 70px)"
+      }}>
         <TaskFilter filter={filter} setFilter={setFilter} />
-        <main style={{
-          flexGrow: 1,
-          maxWidth: 550,
-          padding: 25,
-          margin: "0 24px",
-          borderRadius: 16,
-          background: "var(--bg-primary)"
-        }}>
-          <div style={{display:"flex", alignItems: "center", marginBottom:7}}>
-            <h2 style={{margin:0, fontSize:27}}>My Tasks</h2>
+        <main>
+          <div style={{display:"flex", alignItems: "center", marginBottom:14, gap: 14}}>
+            <h2 style={{margin:0, fontSize: "2rem", flex: 1, color:"var(--primary)"}}>My Tasks</h2>
             <button
               className="theme-toggle"
-              style={{ marginLeft: "auto", padding: "7px 22px", fontSize: 15 }}
+              style={{marginLeft: "auto", minWidth:92, position:"relative", zIndex:5}}
               onClick={() => { setFormOpen(!formOpen); setEditingTask(null); }}>
               {formOpen ? "Close" : "Add Task"}
             </button>
@@ -248,11 +288,11 @@ export function TodoApp() {
               onSubmit={editingTask ? handleEditTask : handleAddTask}
               onCancel={() => { setEditingTask(null); setFormOpen(false); }}
             />}
-          {loading && <div>Loading...</div>}
-          {error && <div style={{ color: "#e74c3c" }}>{error}</div>}
-          <section style={{marginTop:8}}>
+          {loading && <div style={{margin:"28px 0"}}>Loading...</div>}
+          {error && <div className="error-msg">{error}</div>}
+          <section style={{marginTop:10}}>
             {filterTasks(tasks).length === 0 && !loading ?
-              <div style={{ color: "#bbb", fontSize: 15 }}>No tasks found.</div>
+              <div style={{ color: "#bbb", fontSize: 17, textAlign:"center", padding:"28px 0 5px 0" }}>No tasks found.</div>
               : filterTasks(tasks).map(task => (
                 <TaskItem
                   key={task.id}
@@ -264,6 +304,8 @@ export function TodoApp() {
               ))}
           </section>
         </main>
+        {/* Floating Action Button for mobile/small screens */}
+        <Fab active={formOpen} toggle={() => { setFormOpen(v => !v); setEditingTask(null); }} />
       </div>
     </div>
   );

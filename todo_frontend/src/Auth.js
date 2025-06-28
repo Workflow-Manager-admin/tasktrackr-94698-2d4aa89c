@@ -40,33 +40,53 @@ export function Auth({ onAuth }) {
   }
 
   return (
-    <div className="auth-container" style={{
-      background: "var(--bg-secondary)",
-      borderRadius: 8,
-      margin: "60px auto",
-      maxWidth: 350,
-      padding: 32,
-      boxShadow: "0 4px 18px rgba(0,0,0,0.09)"
-    }}>
-      <h2 style={{ marginBottom: 16 }}>{mode === "login" ? "Sign In" : "Register"}</h2>
-      <form onSubmit={handleSubmit}>
+    <div
+      className="auth-container"
+      style={{
+        background: "var(--bg-secondary)",
+        borderRadius: "1.1rem",
+        margin: "70px auto",
+        maxWidth: 360,
+        padding: "38px 32px 32px 32px",
+        boxShadow: "0 8px 36px rgba(25,118,210,0.13)",
+        border: "1.5px solid var(--border-color)",
+        textAlign: "center"
+      }}>
+      <h2 style={{
+        marginBottom: 20,
+        fontWeight: 700,
+        fontSize: "2rem",
+        color: "var(--primary)",
+        letterSpacing: ".5px"
+      }}>
+        {mode === "login" ? "Sign In" : "Register"}
+      </h2>
+      <form onSubmit={handleSubmit} style={{width:"100%"}}>
         <input
           type="text"
           autoFocus
+          required
           placeholder="Username"
           style={{
-            width: "100%", padding: 10, marginBottom: 12, borderRadius: 5,
-            border: "1px solid var(--border-color)", fontSize: 16
+            width: "100%",
+            marginBottom: 14,
+            borderRadius: 8,
+            fontSize: "1.11rem",
+            fontWeight: 500
           }}
           value={username}
           onChange={e => setUsername(e.target.value)}
         />
         <input
           type="password"
+          required
           placeholder="Password"
           style={{
-            width: "100%", padding: 10, marginBottom: 18, borderRadius: 5,
-            border: "1px solid var(--border-color)", fontSize: 16
+            width: "100%",
+            marginBottom: 18,
+            borderRadius: 8,
+            fontSize: "1.11rem",
+            fontWeight: 500
           }}
           value={password}
           onChange={e => setPassword(e.target.value)}
@@ -75,8 +95,12 @@ export function Auth({ onAuth }) {
           type="submit"
           className="theme-toggle"
           style={{
-            width: "100%", marginBottom: 12,
-            backgroundColor: "var(--button-bg)", color: "var(--button-text)", fontWeight: "bold"
+            width: "100%",
+            marginBottom: 13,
+            background: "var(--button-bg)",
+            fontWeight: "bold",
+            fontSize: "1.05rem",
+            letterSpacing: ".5px"
           }}
           disabled={loading}
         >
@@ -86,13 +110,21 @@ export function Auth({ onAuth }) {
           type="button"
           onClick={switchMode}
           className="App-link"
-          style={{ width: "100%" }}
+          style={{
+            width: "100%",
+            color: "var(--accent)",
+            textDecoration: "underline",
+            fontWeight: 600,
+            fontSize: "1.05rem"
+          }}
           tabIndex={-1}
         >
-          {mode === "login" ? "Don't have an account? Register" : "Back to Login"}
+          {mode === "login"
+            ? "Don't have an account? Register"
+            : "Back to Login"}
         </button>
       </form>
-      {error && <div style={{ color: "#e74c3c", marginTop: 10 }}>{error}</div>}
+      {error && <div className="error-msg">{error}</div>}
     </div>
   );
 }
