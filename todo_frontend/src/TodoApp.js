@@ -5,8 +5,9 @@ import {
 
 /* --- Header (Brand) with log out and optional welcome message --- */
 function Header({ onLogout }) {
+  // Use the App-header/navbar class, future-proof for theme changes if needed
   return (
-    <nav className="navbar">
+    <nav className="navbar App-header">
       <span className="title">
         <span role="img" aria-label="Task">📝</span>&nbsp;tasktrackr
       </span>

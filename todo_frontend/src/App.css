@@ -48,9 +48,9 @@
   transition: background 0.32s cubic-bezier(.55,0,.1,1),color 0.32s cubic-bezier(.55,0,.1,1);
 }
 
-/* Header styling */
+/* Header styling (navbar/App-header) controlled only by theme variables */
 .navbar, .App-header {
-  background: var(--header-bg, var(--bg-secondary));
+  background: var(--header-bg);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -60,21 +60,9 @@
   font-size: 1.18rem;
   font-weight: 500;
   min-height: 64px;
-  transition: background 0.32s cubic-bezier(.55,0,.1,1),color 0.32s cubic-bezier(.55,0,.1,1);
-  /* Prevent color/white override caused by later .App-header block */
   color: var(--text-primary);
+  transition: background 0.32s cubic-bezier(.55,0,.1,1), color 0.32s cubic-bezier(.55,0,.1,1);
 }
-
-/* Prevent extra header CSS duplication and removal of theme overrides */
-/* Remove any duplicate or overridden header colors and enforce the theme variable */
-[data-theme="dark"] .navbar,
-[data-theme="dark"] .App-header {
-  background: var(--header-bg) !important;
-  color: var(--text-primary) !important;
-  border-bottom: 2px solid var(--border-color);
-}
-
-/* Remove duplicate .App-header block that caused full-height white space and theme bugs. The header background is now managed only by the top .navbar, .App-header block above. */
 
 .title {
   color: var(--primary);
