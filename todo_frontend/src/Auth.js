@@ -93,14 +93,22 @@ export function Auth({ onAuth }) {
         />
         <button
           type="submit"
-          className="theme-toggle"
+          className="auth-btn"
           style={{
+            display: "block",
             width: "100%",
-            marginBottom: 13,
+            margin: "0 0 13px 0",
             background: "var(--button-bg)",
-            fontWeight: "bold",
-            fontSize: "1.05rem",
-            letterSpacing: ".5px"
+            color: "var(--button-text)",
+            border: "none",
+            borderRadius: "8px",
+            padding: "12px 0",
+            fontWeight: 600,
+            fontSize: "1.09rem",
+            letterSpacing: ".5px",
+            cursor: loading ? "not-allowed" : "pointer",
+            boxShadow: "0 2px 8px rgba(25,118,210,0.10)",
+            transition: "background .2s, box-shadow .2s"
           }}
           disabled={loading}
         >
@@ -113,9 +121,13 @@ export function Auth({ onAuth }) {
           style={{
             width: "100%",
             color: "var(--accent)",
+            background: "transparent",
+            border: "none",
             textDecoration: "underline",
             fontWeight: 600,
-            fontSize: "1.05rem"
+            fontSize: "1.04rem",
+            marginTop: "-2px",
+            cursor: "pointer"
           }}
           tabIndex={-1}
         >
@@ -124,7 +136,7 @@ export function Auth({ onAuth }) {
             : "Back to Login"}
         </button>
       </form>
-      {error && <div className="error-msg">{error}</div>}
+      {error && <div className="error-msg" style={{marginTop:"10px"}}>{error}</div>}
     </div>
   );
 }

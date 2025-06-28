@@ -249,6 +249,27 @@ form .theme-toggle, form .App-link {
   min-width: 90px;
 }
 
+/* Login/auth button styling for Auth.js */
+.auth-btn {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  box-shadow: 0 2px 8px rgba(25,118,210,0.10);
+  border-radius: 8px;
+  padding: 12px 0 !important;
+  font-weight: 600;
+  font-size: 1.09rem;
+  display: block;
+  width: 100%;
+  margin: 0 0 13px 0;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: background .18s, box-shadow .18s;
+}
+.auth-btn:active, .auth-btn:focus {
+  background: var(--button-bg-accent, var(--accent));
+}
+
 form .theme-toggle {
   background: var(--button-bg-accent, var(--button-bg));
   font-weight: 600;
