@@ -283,6 +283,28 @@ export function TodoApp() {
               {formOpen ? "Close" : "Add Task"}
             </button>
           </div>
+          
+          {/* Filter Label: modern, visually distinct, always above task list */}
+          <div
+            className="filter-label"
+            style={{
+              textAlign: "left",
+              fontWeight: 600,
+              letterSpacing: ".5px",
+              fontSize: "1.14rem",
+              color: "var(--accent)",
+              marginBottom: "7px",
+              marginLeft: 2,
+              marginTop: 0,
+              display: "block"
+            }}
+            aria-live="polite"
+            data-testid="filter-label"
+          >
+            {filter === "all" && "Showing: All Tasks"}
+            {filter === "active" && "Showing: Pending Tasks"}
+            {filter === "completed" && "Showing: Completed Tasks"}
+          </div>
           {formOpen &&
             <TaskForm
               editingTask={editingTask}
