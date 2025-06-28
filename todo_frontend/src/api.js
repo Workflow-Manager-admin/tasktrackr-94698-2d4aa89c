@@ -49,17 +49,25 @@ export async function register(username, password) {
   return resp.json();
 }
 
-// PUBLIC_INTERFACE
 /**
  * Logs in a user, and returns and saves the JWT token.
  * @param {string} username
  * @param {string} password
  */
 export async function login(username, password) {
+  // The backend expects form-data (application/x-www-form-urlencoded)
+  const formData = new URLSearchParams();
+  formData.append("username", username);
+  formData.append("password", password);
+
+  // Use only Authorization header, not Content-Type (URLSearchParams sets Content-Type)
+  const headers = {};
+  if (token) headers["Authorization"] = `Bearer ${token}`;
+
   const resp = await fetch(`${BACKEND_URL}/login`, {
     method: "POST",
-    headers: getHeaders(),
-    body: JSON.stringify({ username, password }),
+    headers,
+    body: formData,
   });
   if (!resp.ok) throw new Error(await resp.text());
   const data = await resp.json();
