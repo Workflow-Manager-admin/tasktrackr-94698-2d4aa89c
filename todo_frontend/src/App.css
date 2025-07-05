@@ -1,0 +1,318 @@
+:root {
+  --primary: #1976d2;
+  --secondary: #424242;
+  --accent: #ff9800;
+  --bg: #ffffff;
+  --bg-light: #f8f9fa;
+  --text: #282c34;
+  --sidebar: #f4f5fa;
+  --border: #e9ecef;
+}
+
+/* Layout containers */
+.todoapp-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Segoe UI', 'Roboto', 'Arial', sans-serif;
+}
+
+/* Header styles */
+.todoapp-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  justify-content: flex-start;
+  background: var(--primary);
+  color: #fff;
+  padding: 1.2rem 2rem 1.2rem 1.3rem;
+  font-size: 1.6rem;
+  box-shadow: 0 2px 8px 0 #00000013;
+}
+
+.todoapp-header-logo {
+  font-size: 2rem;
+  margin-right: 0.3rem;
+}
+.todoapp-title {
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: 2px;
+  font-family: inherit;
+  font-size: 1.7rem;
+}
+
+/* Main app grid */
+.todoapp-layout {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  width: 100%;
+}
+
+/* Sidebar styles */
+.todoapp-sidebar {
+  width: 220px;
+  background: var(--sidebar);
+  border-right: 1px solid var(--border);
+  padding: 1.5rem 1rem;
+  box-sizing: border-box;
+  min-height: calc(100vh - 68px);
+  /* header is ~68px */
+}
+
+.filters-title {
+  margin-bottom: 1rem;
+  color: var(--secondary);
+  font-weight: 600;
+  font-size: 1.18rem;
+  letter-spacing: 1px;
+}
+.filters-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.filters-btn {
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  width: 100%;
+  text-align: left;
+  font-size: 1.1rem;
+  cursor: pointer;
+  color: var(--text);
+  transition: color 0.18s;
+  border-radius: 8px;
+}
+.filters-btn.active {
+  color: var(--accent);
+  font-weight: 700;
+  background: #fff7f0;
+}
+.filters-btn:hover:not(.active) {
+  background: #f0f4fa;
+  color: var(--primary);
+}
+
+/* Main section */
+.todoapp-main {
+  flex: 1;
+  padding: 2rem;
+  min-width: 0;
+  background: var(--bg-light);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+/* Add/Edit input bar */
+.task-input-bar {
+  display: flex;
+  gap: 0.7rem;
+  align-items: stretch;
+  margin-bottom: 1.7rem;
+  background: #fff;
+  border: 1.5px solid var(--primary);
+  border-radius: 12px;
+  padding: 0.7rem 1rem;
+  box-shadow: 0 4px 14px #0001;
+}
+
+.task-input {
+  flex: 1 1 200px;
+  font-size: 1.17rem;
+  border: none;
+  background: transparent;
+  outline: none;
+  padding: 0 0.5rem;
+  color: var(--text);
+}
+
+.task-input::placeholder {
+  color: #b4b6bb;
+}
+
+.btn {
+  display: inline-block;
+  font-size: 1.07rem;
+  font-weight: 600;
+  color: #fff;
+  border: none;
+  background: var(--primary);
+  border-radius: 8px;
+  padding: 0.45rem 1.2rem;
+  margin-left: 0.2rem;
+  cursor: pointer;
+  transition: background .16s;
+  outline: none;
+  box-shadow: 0 2px 4px #00000014;
+}
+
+.btn-save { background: var(--primary); }
+.btn-add { background: var(--accent); }
+.btn-cancel { 
+  background: #e0e0e0; 
+  color: var(--secondary);
+}
+.btn:disabled {
+  opacity: 0.54;
+  cursor: not-allowed;
+}
+
+/* Task list styles */
+.task-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 6px 24px #0001;
+}
+
+.task-row {
+  display: flex;
+  align-items: flex-start;
+  padding: 1.17rem 1.1rem 1.17rem 0.8rem;
+  gap: 1.2rem;
+  border-bottom: 1.2px solid #f0f2f6;
+  transition: background 0.1s;
+  font-size: 1.16rem;
+  position: relative;
+}
+
+.task-row:last-child {
+  border-bottom: none;
+}
+
+.task-done .task-text {
+  text-decoration: line-through;
+  color: #b4b6bb;
+  font-style: italic;
+}
+
+.task-check {
+  margin-top: 4px;
+}
+.task-check input[type='checkbox'] {
+  width: 1.25em;
+  height: 1.25em;
+  accent-color: var(--accent);
+}
+
+.task-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.36rem;
+}
+
+.task-text {
+  font-size: 1.07rem;
+  line-height: 1.35;
+  font-weight: 500;
+}
+.task-meta {
+  font-size: 0.87rem;
+  color: #b4b6bb;
+  font-style: italic;
+}
+.task-actions {
+  display: flex;
+  gap: 1px;
+  align-items: center;
+  margin-left: auto;
+}
+
+.btn-link {
+  appearance: none;
+  border: none;
+  background: transparent;
+  font-size: 1.14rem;
+  cursor: pointer;
+  margin: 0 0.14rem;
+  opacity: 0.75;
+  transition: opacity .12s, color .22s;
+  color: var(--secondary);
+  padding: 2px 5px;
+  border-radius: 6px;
+}
+
+.btn-link:focus, .btn-link:hover {
+  outline: none;
+  background: #f0f2f7;
+  opacity: 1;
+}
+
+.btn-danger {
+  color: #e53935;
+}
+
+.empty-tasks {
+  text-align: center;
+  color: #b4b6bb;
+  margin: 2.8rem 0;
+  font-style: italic;
+}
+
+/* Floating action button (FAB) style for mobile */
+.fab {
+  position: fixed;
+  z-index: 1000;
+  right: 2.3rem;
+  bottom: 2.3rem;
+  width: 60px;
+  height: 60px;
+  font-size: 2.25rem;
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  box-shadow: 0 4px 24px #0002;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background .15s, box-shadow .17s;
+}
+
+.fab:active {
+  background: #ffa84c;
+}
+
+@media (max-width: 1000px) {
+  .todoapp-layout { flex-direction: column; }
+  .todoapp-sidebar { 
+    width: 100vw;
+    min-width: 0;
+    min-height: unset;
+    padding: 1.1rem 0.85rem 0.7rem 1.1rem;
+    border-right: none;
+    border-bottom: 1.5px solid var(--border);
+    box-shadow: 0 3px 8px #0001;
+  }
+  .todoapp-main { 
+    padding: 1.20rem 0.9rem;
+    min-width: 0;
+  }
+  .fab {
+    right: 1.1rem;
+    bottom: 1.1rem;
+    width: 48px;
+    height: 48px;
+    font-size: 1.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .todoapp-header { font-size: 1rem; padding: 0.6rem 0.9rem 0.28rem 0.7rem; }
+  .todoapp-title { font-size: 1.13rem; }
+  .filters-title { font-size: 1rem; }
+  .task-row { font-size: 1rem; padding: 0.77rem 0.55rem 0.77rem 0.6rem; }
+  .task-list { box-shadow: 0 1.5px 8px #0001; }
+}
